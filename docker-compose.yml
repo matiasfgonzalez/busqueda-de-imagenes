@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend # Ruta al Dockerfile del backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000" # Mapea el puerto 8000 del host al 8000 del contenedor
+    volumes:
+      # Monta el código de la app para que los cambios se reflejen sin reconstruir la imagen (útil para desarrollo)
+      - ./backend/app:/app/app
+      # Monta la carpeta de imágenes de ejemplo para que el backend la vea
+      - ./backend/example_images:/app/example_images
+    environment:
+      # Puedes añadir variables de entorno aquí si las necesitas para el backend
+      - PYTHONUNBUFFERED=1 # Muestra la salida de Python en tiempo real
+    networks:
+      - image-search-network
+  frontend:
+    build:
+      context: ./frontend # Ruta al Dockerfile del frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Mapea el puerto 3000 del host al 3000 del contenedor
+    # Depende del backend para asegurar que el backend se inicie antes (o casi al mismo tiempo)
+    # Puede que necesites retry logic en el frontend para conexiones si el backend tarda en levantar
+    depends_on:
+      - backend
+    volumes:
+      # Monta el código del frontend para desarrollo en vivo
+      - ./frontend:/app
+      # Excluye node_modules y .next para evitar problemas de montajes
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - image-search-network
+
+networks:
+  image-search-network:
+    driver: bridge
