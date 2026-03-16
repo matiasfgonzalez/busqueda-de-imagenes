@@ -25,11 +25,12 @@ services:
     volumes:
       - ./backend/app:/app/app
       - ./backend/example_images:/app/example_images
+      - ./backend/uploaded_images:/app/uploaded_images
     environment:
       - PYTHONUNBUFFERED=1
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/image_search
       - BASE_URL=http://localhost:8000
-      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001,http://localhost:62351,http://127.0.0.1:62351
       - SIMILARITY_THRESHOLD=0.5
     depends_on:
       - db
