@@ -61,15 +61,15 @@ services:
     networks:
       - image-search-network
   
-  aprendiendo-react:
+  dashboard:
     build:
-      context: /home/mongodb/aprendiendo-react/current
+      context: /home/mongodb/dashboard/current
       dockerfile: Dockerfile
     restart: unless-stopped
-    ports:
-      - "3001:3001"
     env_file:
-      - /home/mongodb/aprendiendo-react/current/.env.local
+      - /home/mongodb/dashboard/current/.env.local
+    networks:
+      - image-search-network
 
 networks:
   image-search-network:
