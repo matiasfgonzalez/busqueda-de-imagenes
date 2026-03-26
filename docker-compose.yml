@@ -23,7 +23,8 @@ services:
       - PYTHONUNBUFFERED=1
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/image_search
       - BASE_URL=https://api-digitalizacion-de-imagenes-test.ater.gob.ar
-      - ALLOWED_ORIGINS=https://digitalizacion-de-imagenes-test.ater.gob.ar,http://localhost:62351
+      - ALLOWED_ORIGINS=http://localhost:62351
+      - ALLOWED_ORIGIN_REGEX=https?://.*\.ater\.gob\.ar
       - SIMILARITY_THRESHOLD=0.5
     depends_on:
       - db
